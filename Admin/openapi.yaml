@@ -1,0 +1,69 @@
+openapi: 3.0.3
+info:
+  title: Swagger Petstore - OpenAPI 3.0
+  version: 1.0.11
+servers:
+  - url: http://localhost:3000
+paths:
+  /items:
+    post:
+      summary: Создать новый товар
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                description:
+                  type: string
+                cost:
+                  type: integer
+                categories:
+                  type: string
+      responses:
+        '201':
+          description: Товар создан
+  /items/{id}:
+    put:
+      summary: Обновить товар по ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID товара
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                description:
+                  type: string
+                cost:
+                  type: integer
+                categories:
+                  type: string
+      responses:
+        '200':
+            description: Товар обновлен
+  
+    delete:
+      summary: Удалить товар по ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID товара
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Товар удален

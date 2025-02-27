@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Потребление товаров</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            margin: 20px;
+            text-align: center;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        .items {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .card {
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            background: #ffdddd;
+            border: 2px solid #ff6b6b;
+        }
+
+        .card h2 {
+            color: #b22222;
+        }
+
+        .card p {
+            color: #555;
+        }
+
+        .card p.price {
+            font-weight: bold;
+        }
+
+        .card p.categories {
+            color: #ff6b6b;
+        }
+    </style>
+</head>
+<body>
+    <h1>Товары</h1>
+    <div class="items" id="items-container">
+        
+    </div>
+
+    <script>
+        async function loadItems() {
+            const response = await fetch('/items');
+            const items = await response.json();
+
+            const container = document.getElementById('items-container');
+            items.forEach(item => {
+                const itemCard = document.createElement('div');
+                itemCard.classList.add('card');
+                itemCard.innerHTML = `
+                    <h2>${item.name}</h2>
+                    <p>${item.description}</p>
+                    <p class="price">Цена: ${item.price}₽</p>
+                    <p class="categories">Категории: ${item.categoriesList.join(', ')}</p>
+                `;
+                container.appendChild(itemCard);
+            });
+        }
+
+        window.onload = loadItems;
+    </script>
+</body>
+</html>
