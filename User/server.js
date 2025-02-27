@@ -4,7 +4,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 
 const app = express();
-const PORT = 5000;
+const PORT = 4221;
 
 const itemsFilePath = path.join(__dirname, '../items.json');
 
