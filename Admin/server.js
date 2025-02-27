@@ -11,7 +11,6 @@ const itemsFilePath = path.join(__dirname, '../items.json');
 const swaggerJsDoc = require('swagger-jsdoc');
 const swaggerUi = require('swagger-ui-express');
 
-// Swagger документация
 const swaggerOptions = {
     swaggerDefinition: {
         openapi: '3.0.0',
@@ -26,19 +25,16 @@ const swaggerOptions = {
             },
         ],
     },
-    apis: ['openapi.yaml'], // укажите путь к файлам с аннотациями
+    apis: ['openapi.yaml'],
 };
 
 const swaggerDocs = swaggerJsDoc(swaggerOptions);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
-
-// Middleware для парсинга JSON
 app.use(bodyParser.json());
 
 app.use(express.static('public'));
 
-// Массив для хранения задач
 let items = require(itemsFilePath);
 
 
@@ -93,7 +89,6 @@ app.delete('/items/:id', (req, res) => {
     res.status(204).send();
 });
 
-// Запуск сервера
 app.listen(PORT, () => {
     console.log("Server is running on http://localhost:", PORT);
 });
