@@ -16,6 +16,15 @@
             color: #333;
         }
 
+        .combo-box {
+            margin: 20px 0;
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 8px;
+            border: 2px solid #ff6b6b;
+            background: #fff5f5;
+        }
+
         .items {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
@@ -50,16 +59,25 @@
 </head>
 <body>
     <h1>Товары</h1>
+
+    <select id="category-select" class="combo-box">
+        <option value="">Выберите категорию</option>
+    </select>
+
     <div class="items" id="items-container">
         
     </div>
 
     <script>
+        const categoriesSet = new Set();  // Перемещаем множество в глобальную область
+
         async function loadItems() {
-            const response = await fetch('/items');
+            const response = await fetch(`/items?category=${encodeURIComponent(document.getElementById('category-select').value)}`);
             const items = await response.json();
 
             const container = document.getElementById('items-container');
+            container.innerHTML = '';
+            
             items.forEach(item => {
                 const itemCard = document.createElement('div');
                 itemCard.classList.add('card');
@@ -70,10 +88,33 @@
                     <p class="categories">Категории: ${item.categoriesList.join(', ')}</p>
                 `;
                 container.appendChild(itemCard);
+
+                // Обновляем множество категорий
+                item.categoriesList.forEach(category => categoriesSet.add(category));
+            });
+
+            // Заполняем категории в ComboBox
+            populateCategories(Array.from(categoriesSet));
+        }
+
+        function populateCategories(categories) {
+            const select = document.getElementById('category-select');
+            
+            // Очищаем все старые опции (кроме первой)
+            select.innerHTML = '<option value="">Выберите категорию</option>';
+            
+            categories.forEach(category => {
+                const option = document.createElement('option');
+                option.value = category;
+                option.textContent = category;
+                select.appendChild(option);
             });
         }
 
+        document.getElementById('category-select').addEventListener('change', loadItems);
+
         window.onload = loadItems;
+
     </script>
 </body>
 </html>

@@ -43,9 +43,16 @@ const readItemsFromFile = () => {
 
 app.get('/items', (req, res) => {
     const items = readItemsFromFile();
+
+    const category = req.query.category;
+
+    if (category) {
+        const filteredItems = items.filter(i => i.categoriesList.some(c => c.toLowerCase() === category.toLowerCase()))
+        return res.json(filteredItems);
+    }
+
     res.json(items);
 });
-
 
 app.listen(PORT, () => {
     console.log("Server is running on http://localhost:", PORT);

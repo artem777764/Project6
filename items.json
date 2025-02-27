@@ -23,7 +23,7 @@
     "id": 3,
     "name": "RTX 4080 Super",
     "description": "Что за лев этот тигр",
-    "price": "139999",
+    "price": "140000",
     "categoriesList": [
       "Видеокарта",
       "Много Деняк"
@@ -34,6 +34,15 @@
     "name": "Ryzen 5 3600X",
     "description": "А почему бы и нет",
     "price": "9500",
+    "categoriesList": [
+      "Процессор"
+    ]
+  },
+  {
+    "id": 5,
+    "name": "Ryzen 5 7500F",
+    "description": "Камень всем камням",
+    "price": "18000",
     "categoriesList": [
       "Процессор"
     ]
