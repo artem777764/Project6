@@ -2,58 +2,76 @@ const fs = require('fs');
 const path = require('path');
 const express = require('express');
 const bodyParser = require('body-parser');
+const { ApolloServer } = require('@apollo/server');
+const { expressMiddleware } = require('@apollo/server/express4');
+const { gql } = require('graphql-tag');
 
 const app = express();
 const PORT = 4221;
 
 const itemsFilePath = path.join(__dirname, '../items.json');
 
-const swaggerJsDoc = require('swagger-jsdoc');
-const swaggerUi = require('swagger-ui-express');
-
-const swaggerOptions = {
-    swaggerDefinition: {
-        openapi: '3.0.0',
-        info: {
-            title: 'Task Management API',
-            version: '1.0.0',
-            description: 'API для управления задачами',
-        },
-        servers: [
-            {
-                url: 'http://localhost:3000',
-            },
-        ],
-    },
-    apis: ['openapi.yaml'],
-};
-
-const swaggerDocs = swaggerJsDoc(swaggerOptions);
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
-
-
-app.use(bodyParser.json());
-
-app.use(express.static('public'));
-
 const readItemsFromFile = () => {
     const data = fs.readFileSync(itemsFilePath, 'utf-8');
     return JSON.parse(data);
 };
 
-app.get('/items', (req, res) => {
-    const items = readItemsFromFile();
+const generateHTML = (item, fields) => {
+    const parts = [];
 
-    const category = req.query.category;
-
-    if (category) {
-        const filteredItems = items.filter(i => i.categoriesList.some(c => c.toLowerCase() === category.toLowerCase()))
-        return res.json(filteredItems);
+    if (fields.includes('id')) parts.push(`<p><strong>ID:</strong> ${item.id}</p>`);
+    if (fields.includes('name')) parts.push(`<h3>${item.name}</h3>`);
+    if (fields.includes('description')) parts.push(`<p>${item.description}</p>`);
+    if (fields.includes('price')) parts.push(`<p><strong>Цена:</strong> ${item.price} руб.</p>`);
+    if (fields.includes('categoriesList')) {
+        const categories = item.categoriesList.join(', ');
+        parts.push(`<p><strong>Категории:</strong> ${categories}</p>`);
     }
 
-    res.json(items);
-});
+    return `<div class="item-card">${parts.join('')}</div>`;
+};
 
-app.listen(PORT, () => {
-    console.log("Server is running on http://localhost:", PORT);
-});
+const typeDefs = gql`
+    type Item {
+        id: ID!
+        name: String!
+        description: String!
+        price: Int!
+        categoriesList: [String!]!
+    }
+
+    type ItemHTML {
+        html: String!
+    }
+
+    type Query {
+        items(fields: [String!]!): [ItemHTML!]!
+    }
+`;
+
+const resolvers = {
+    Query: {
+        items: (_, {fields}) => {
+            const items = readItemsFromFile();
+            return items.map(item => ({
+                html: generateHTML(item, fields)
+            }));
+        },
+    },
+};
+
+const startServer = async () => {
+    const apolloServer = new ApolloServer({ typeDefs, resolvers });
+    await apolloServer.start();
+
+    app.use(bodyParser.json());
+    app.use(express.static('public'));
+
+    app.use('/graphql', expressMiddleware(apolloServer));
+
+    app.listen(PORT, () => {
+        console.log(`Server is running on http://localhost:${PORT}/graphql`);
+    });
+};
+
+startServer();

@@ -99,56 +99,57 @@
         async function addProduct() {
             const name = document.getElementById('addName').value;
             const description = document.getElementById('addDescription').value;
-            const price = document.getElementById('addPrice').value;
+            const price = parseFloat(document.getElementById('addPrice').value);  // Преобразуем в число
             const categories = document.getElementById('addCategory').value;
-
+    
             await fetch('/items', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ name, description, price, categories })
             });
-
+    
             document.getElementById('addName').value = '';
             document.getElementById('addDescription').value = '';
             document.getElementById('addPrice').value = '';
             document.getElementById('addCategory').value = '';
-
+    
             alert('Товар добавлен!');
         }
-
+    
         async function editProduct() {
             const id = document.getElementById('editId').value;
             const name = document.getElementById('editName').value;
             const description = document.getElementById('editDescription').value;
-            const price = document.getElementById('editPrice').value;
+            const price = parseFloat(document.getElementById('editPrice').value);  // Преобразуем в число
             const categories = document.getElementById('editCategory').value;
-
+    
             await fetch(`/items/${id}`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ name, description, price, categories })
             });
-
+    
             document.getElementById('editId').value = '';
             document.getElementById('editName').value = '';
             document.getElementById('editDescription').value = '';
             document.getElementById('editPrice').value = '';
             document.getElementById('editCategory').value = '';
-
+    
             alert('Товар изменён!');
         }
-
+    
         async function deleteProduct() {
             const id = document.getElementById('deleteId').value;
-
+    
             await fetch(`/items/${id}`, {
                 method: 'DELETE'
             });
-
+    
             document.getElementById('deleteId').value = '';
-
+    
             alert('Товар удалён!');
         }
     </script>
+    
 </body>
 </html>

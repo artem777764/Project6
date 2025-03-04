@@ -3,7 +3,7 @@
     "id": 1,
     "name": "RTX 5090",
     "description": "Минус разъём питания",
-    "price": "500000",
+    "price": 500000,
     "categoriesList": [
       "Видеокарта",
       "Отопление",
@@ -14,7 +14,7 @@
     "id": 2,
     "name": "RX 6600",
     "description": "Игры делают бррр-бррр",
-    "price": "26000",
+    "price": 26000,
     "categoriesList": [
       "Видеокарта"
     ]
@@ -23,7 +23,7 @@
     "id": 3,
     "name": "RTX 4080 Super",
     "description": "Что за лев этот тигр",
-    "price": "140000",
+    "price": 140000,
     "categoriesList": [
       "Видеокарта",
       "Много Деняк"
@@ -33,7 +33,7 @@
     "id": 4,
     "name": "Ryzen 5 3600X",
     "description": "А почему бы и нет",
-    "price": "9500",
+    "price": 9500,
     "categoriesList": [
       "Процессор"
     ]
@@ -42,7 +42,7 @@
     "id": 5,
     "name": "Ryzen 5 7500F",
     "description": "Камень всем камням",
-    "price": "18000",
+    "price": 18000,
     "categoriesList": [
       "Процессор"
     ]
@@ -51,7 +51,7 @@
     "id": 7,
     "name": "Тест",
     "description": "Новыый тест",
-    "price": "111",
+    "price": 111,
     "categoriesList": [
       "Привет",
       "Мир",
