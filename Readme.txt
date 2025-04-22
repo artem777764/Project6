@@ -1,10 +1,10 @@
 Клонировать репозиторий:
-```
+```sh
 git clone https://github.com/artem777764/Project6
 ```
 
 Для запуска:
-```
+```sh
 docker-compose up --build
 ```
 
