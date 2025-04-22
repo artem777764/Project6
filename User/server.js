@@ -9,7 +9,7 @@ const { gql } = require('graphql-tag');
 const app = express();
 const PORT = 4221;
 
-const itemsFilePath = path.join(__dirname, '../items.json');
+const itemsFilePath = path.join(process.cwd(), 'items.json');
 
 const readItemsFromFile = () => {
     const data = fs.readFileSync(itemsFilePath, 'utf-8');

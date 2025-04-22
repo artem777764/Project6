@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  admin:
+    build: ./Admin
+    ports:
+      - "3000:3000"
+    depends_on:
+      - websocket
+    volumes:
+      - ./items.json:/app/items.json
+      - ./Admin/public:/app/public:ro
+
+  user:
+    build: ./User
+    ports:
+      - "4221:4221"
+    volumes:
+      - ./items.json:/app/items.json
+      - ./User/public:/app/public:ro
+    depends_on:
+      - websocket
+
+  websocket:
+    build: ./WebSocketApi
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./WebSocketApi/public:/app/public:ro

@@ -6,7 +6,7 @@ const bodyParser = require('body-parser');
 const app = express();
 const PORT = 3000;
 
-const itemsFilePath = path.join(__dirname, '../items.json');
+const itemsFilePath = path.join(process.cwd(), 'items.json');
 
 const swaggerJsDoc = require('swagger-jsdoc');
 const swaggerUi = require('swagger-ui-express');
